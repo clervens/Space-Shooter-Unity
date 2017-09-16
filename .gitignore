@@ -32,5 +32,8 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+
+# Custom
 Assets/_Complete-Game
 _Complete-Game.meta
+Assets/TutorialInfo
