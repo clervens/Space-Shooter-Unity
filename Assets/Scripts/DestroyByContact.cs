@@ -6,12 +6,23 @@ public class DestroyByContact : MonoBehaviour {
 
 	public GameObject explosion;
 	public GameObject playerExplosion;
+	public int scoreValue = 10;
+	private GameController gameController;
 
-	private Transform transform;
+	private Transform objTransform;
 
 	// Use this for initialization
 	void Start () {
-		transform = GetComponent<Transform> ();
+		objTransform = GetComponent<Transform> ();
+		GameObject gameControllerObj = GameObject.FindWithTag ("GameController");
+
+		if (gameControllerObj != null) {
+			gameController = gameControllerObj.GetComponent<GameController>();
+		}
+
+		if (gameController == null) {
+			Debug.Log ("Cannot find 'GameController' script.");
+		}
 	}
 	
 	// Update is called once per frame
@@ -24,12 +35,13 @@ public class DestroyByContact : MonoBehaviour {
 			return;
 		}
 
-		Instantiate (explosion, transform.position, transform.rotation);
+		Instantiate (explosion, objTransform.position, objTransform.rotation);
 
 		if (other.tag == "Player") {
 			Instantiate (playerExplosion, other.transform.position, other.transform.rotation);
+			gameController.GameOver ();
 		}
-
+		gameController.AddScore (scoreValue);
 		Destroy (other.gameObject);
 		Destroy (gameObject);	
 	}
